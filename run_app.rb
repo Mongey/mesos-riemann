@@ -13,7 +13,13 @@ c = Riemann::Client.new host: RIEMANN_ADDRESS, port: RIEMANN_PORT, timeout: 5
 loop do
   containers = Docker::Container.all
   containers.each do |container|
-    c.tcp << riemann_events(container)
+    riemann_events(container).each do |e|
+      begin
+        c.tcp << e
+      rescue StandardError => e
+        puts e.message
+      end
+    end
   end
   sleep SLEEP_INTERVAL
 end
