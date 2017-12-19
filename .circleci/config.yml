@@ -1,0 +1,15 @@
+version: 2
+
+jobs:
+  build:
+    working_directory: ~/mesos-riemann
+    docker:
+      - image: circleci/ruby:2.4
+        environment:
+          RACK_ENV: test
+    steps:
+      - setup_remote_docker:
+          reusable: true
+      - checkout
+      - run: bundle install
+      - run: rake

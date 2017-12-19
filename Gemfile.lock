@@ -1,17 +1,27 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    ansi (1.5.0)
     beefcake (1.0.0)
+    builder (3.2.3)
     docker-api (1.34.0)
       excon (>= 0.47.0)
       multi_json
     excon (0.60.0)
+    minitest (5.10.3)
+    minitest-reporters (1.1.19)
+      ansi
+      builder
+      minitest (>= 5.0)
+      ruby-progressbar
     mtrc (0.0.4)
     multi_json (1.12.2)
+    rake (12.3.0)
     riemann-client (0.2.6)
       beefcake (>= 0.3.5, <= 1.0.0)
       mtrc (>= 0.0.4)
       trollop (>= 1.16.2)
+    ruby-progressbar (1.9.0)
     trollop (2.1.2)
 
 PLATFORMS
@@ -19,6 +29,9 @@ PLATFORMS
 
 DEPENDENCIES
   docker-api
+  minitest
+  minitest-reporters
+  rake
   riemann-client
 
 BUNDLED WITH
