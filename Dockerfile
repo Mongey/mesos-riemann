@@ -6,5 +6,5 @@ COPY Gemfile.lock Gemfile.lock
 RUN bundle install
 
 WORKDIR /app
-COPY monitor.rb .
-CMD ["/app/monitor.rb"]
+COPY . /app/
+CMD ["/app/run_app.rb"]
