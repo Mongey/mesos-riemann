@@ -7,16 +7,19 @@ RIEMANN_ADDRESS = ENV.fetch('RIEMANN_ADDRESS')
 RIEMANN_PORT = ENV.fetch('RIEMANN_PORT', '5555').to_i
 c = Riemann::Client.new host: RIEMANN_ADDRESS, port: RIEMANN_PORT, timeout: 5
 
-def task_name_from_container(env_vars)
-  marathon_env = env_vars.select { |env| env.start_with? 'MARATHON_APP_ID' }
-  return unless marathon_env.any?
-
+def task_name_for_marathon_container(marathon_env)
   marathon_id = marathon_env.first.split('=').last
   marathon_names = marathon_id.split('/').reject { |e| e == '' }.compact
 
   marathon_group = marathon_names.first if marathon_names.size > 1
   marathon_task = marathon_names.last
   marathon_group.nil? ? marathon_task : "#{marathon_group}-#{marathon_task}"
+end
+
+def task_name_from_container(env_vars)
+  marathon_env = env_vars.select { |env| env.start_with? 'MARATHON_APP_ID' }
+  return unless marathon_env.any?
+  task_name_for_marathon_container(marathon_env)
 end
 
 def stats_for_container(container_id)
