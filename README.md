@@ -13,5 +13,5 @@ Riemann.
 * `docker <task_name> net rx`
 * `docker <task_name> net tx`
 
-Forward them to grafana and graph them in Riemann, like so
+Forward them to Riemann and graph them in grafana, like so
 ![docs/grafana.png](docs/grafana.png)
