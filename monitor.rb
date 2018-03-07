@@ -30,10 +30,15 @@ end
 
 def stats_for_container(container, state)
   stats = Docker::Util.parse_json(container.connection.get("/containers/#{container.id}/stats", stream: false))
+  internal_stats(stats, state)
+end
+
+def internal_stats(stats, state)
   memory_stats = stats['memory_stats']
   memory_usage = memory_stats['usage'].to_f
   memory_total = memory_stats['limit'].to_f
   memory_percentage = memory_usage / memory_total
+  memory_percentage = 0.0 if memory_total == 0
 
   running = state['Running']
 

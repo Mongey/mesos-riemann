@@ -36,4 +36,29 @@ class MonitorTest < Minitest::Test
 
     assert_equal "localhost", events.map{|e| e[:host]}.first
   end
+
+  def test_zero_ratio
+    stats = {
+      "memory_stats" => {
+        "usage" => 100,
+        "limit" => 0,
+      }
+    }
+    state = {
+      "Running" => true,
+      "StartedAt" => "2018-02-27T15:53:33.753434383Z",
+    }
+
+    actual = internal_stats(stats, state)
+    actual.delete(:uptime)
+
+    expected = {running: true,
+                memory_usage: 100.0,
+                memory_total: 0.0,
+                memory_percentage: 0.0,
+                net_rx: nil,
+                net_tx: nil}
+
+    assert_equal(expected, actual)
+  end
 end
